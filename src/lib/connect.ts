@@ -11,8 +11,8 @@ export interface UserDoc {
   hashed_password?: string;
 
   // files
-  sentCount: 0;
-  receivedCount: 0;
+  sentCount?: 0;
+  receivedCount?: 0;
 }
 
 export interface SessionDoc {
