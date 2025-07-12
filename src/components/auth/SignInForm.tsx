@@ -17,7 +17,7 @@ export default function SignInForm() {
   const router = useRouter();
 
   const [error, submitAction, isPending] = useActionState(
-    async (previousState: any, formData: any) => {
+    async (previousState: unknown, formData: any) => {
       try {
         const code = formData.get("code");
         const password = formData.get("pass");
