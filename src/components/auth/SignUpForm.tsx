@@ -16,7 +16,7 @@ export default function SignUpForm() {
   const router = useRouter();
 
   const [error, submitAction, isPending] = useActionState(
-    async (previousState: unknown, formData: any) => {
+    async (previousState: unknown, formData: FormData) => {
       try {
         const name = formData.get("name");
         const code = formData.get("code");
