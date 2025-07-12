@@ -29,7 +29,7 @@ export default function SignUpForm() {
         });
         toast.success("Sign up successful");
         router.push("/");
-      } catch (error) {
+      } catch (error: unknown) {
         toast.error(filterError(error));
         return null;
       }
