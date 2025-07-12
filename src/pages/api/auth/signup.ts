@@ -35,6 +35,8 @@ export default async function handler(
     name,
     shortcode: scode,
     hashed_password,
+    sentCount: 0,
+    receivedCount: 0,
   });
 
   const lucia = await initAuth();

@@ -28,7 +28,7 @@ export default function SignInForm() {
         });
         toast.success("Sign in successful");
         router.push("/");
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast.error(filterError(error));
         return null;
       }

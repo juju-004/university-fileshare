@@ -43,7 +43,7 @@ function FileList({ getStats }: { getStats: () => void }) {
       try {
         const { data } = await axios.get(`/api/files/${session?.shortcode}`);
         setFiles(data as FileHistory[]);
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast.error(filterError(error));
       }
       return;
@@ -64,7 +64,7 @@ function FileList({ getStats }: { getStats: () => void }) {
           getFileHistory();
           getStats();
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast.error(filterError(error));
       }
       return;
