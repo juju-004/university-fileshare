@@ -17,7 +17,13 @@ import React, { useEffect, useState, useTransition } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
-export const getIcon = (filename: string, size = 20) => {
+export const GetIcon = ({
+  filename,
+  size,
+}: {
+  filename: string;
+  size: number;
+}) => {
   const ext = filename.split(".").pop()?.toLowerCase();
   if (!ext) return <File size={size} className="w-4 h-4" />;
   if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext))
@@ -153,7 +159,7 @@ const Upload: React.FC = () => {
                   key={file.name}
                   className="flex overflow-hidden text-black dark:text-white border-b border-gray-100 px-2 py-3 dark:border-gray-800 items-center gap-2"
                 >
-                  <span>{getIcon(file.name)}</span>
+                  <GetIcon filename={file.name} size={20} />
                   <span className="whitespace-nowrap flex-1 overflow-hidden text-ellipsis">
                     {file.name}
                   </span>

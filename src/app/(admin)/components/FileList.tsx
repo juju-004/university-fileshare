@@ -1,6 +1,5 @@
 import { Download, Trash2 } from "lucide-react";
 import React, { useEffect, useState, useTransition } from "react";
-import { getIcon } from "../share/page";
 import Link from "next/link";
 import { bytesToSize, filterError, formatDate } from "@/lib/helpers";
 import Button from "@/components/ui/button/Button";
@@ -10,6 +9,7 @@ import axios from "axios";
 import { useSession } from "@/context/SessionContext";
 import { Modal } from "@/components/ui/modal";
 import { useModal } from "@/hooks/useModal";
+import { GetIcon } from "../share/page";
 
 // Define the TypeScript interface for the table rows
 interface FileHistory {
@@ -127,7 +127,7 @@ function FileList({ getStats }: { getStats: () => void }) {
                   <div className="mr-5 text-gray-500">
                     {formatDate(file.uploadedAt)}
                   </div>
-                  {getIcon(file.originalName, 26)}
+                  <GetIcon filename={file.originalName} size={26} />
                   <div className="flex-1 flex flex-col">
                     <span className="">{file.originalName}</span>
                     <span className="text-gray-500">
