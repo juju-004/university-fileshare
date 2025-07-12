@@ -9,7 +9,7 @@ import axios from "axios";
 import { useSession } from "@/context/SessionContext";
 import { Modal } from "@/components/ui/modal";
 import { useModal } from "@/hooks/useModal";
-import { GetIcon } from "../share/page";
+import GetIcon from "@/components/GetIcon";
 
 // Define the TypeScript interface for the table rows
 interface FileHistory {
