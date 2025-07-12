@@ -25,7 +25,7 @@ export default function UserDropdown() {
         await axios.post("/api/auth/signout");
         toast.success("Signout successful");
         router.replace("/signin");
-      } catch (error: any) {
+      } catch (error) {
         toast.error(filterError(error));
       }
       return;

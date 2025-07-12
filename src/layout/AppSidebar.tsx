@@ -80,7 +80,7 @@ const AppSidebar: React.FC = () => {
       <div className="flex flex-col mt-5 md:mt-0 overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <ul className="flex flex-col gap-4">
-            {navItems.map((nav, index) => (
+            {navItems.map((nav) => (
               <li key={nav.name}>
                 {nav.subItems ? (
                   <button

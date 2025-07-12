@@ -38,6 +38,7 @@ export default function SignInForm() {
 
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
+      <div className="hidden">{error}</div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">

@@ -122,7 +122,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             >
               <div className="flex flex-col">
                 {options.map(
-                  (option, index) =>
+                  (option) =>
                     !selectedOptions.includes(option) && (
                       <div key={option}>
                         <div

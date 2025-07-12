@@ -42,7 +42,7 @@ function FileList({ getStats }: { getStats: () => void }) {
     startTransition(async () => {
       try {
         const { data } = await axios.get(`/api/files/${session?.shortcode}`);
-        setFiles(data);
+        setFiles(data as FileHistory[]);
       } catch (error: any) {
         toast.error(filterError(error));
       }
