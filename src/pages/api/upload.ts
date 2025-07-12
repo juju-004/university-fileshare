@@ -5,22 +5,22 @@ import JSZip from "jszip";
 import { getCollections } from "@/lib/connect";
 import fs from "fs/promises";
 import path from "path";
+import os from "os";
 
-// Disable body parsing (for formidable)
+// Disable body parsing (formidable handles it)
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Cloudinary config
+// Cloudinary setup
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
-// Main handler
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -35,7 +35,6 @@ export default async function handler(
     if (err) return res.status(500).json({ error: "File parsing error" });
 
     const fileList = Array.isArray(files.files) ? files.files : [files.files];
-
     if (!fields.sender || !fields.receivers || fileList.length === 0) {
       return res.status(400).json({ error: "Invalid input" });
     }
@@ -59,22 +58,21 @@ export default async function handler(
       const zipContent = await zip.generateAsync({ type: "nodebuffer" });
       const zipSizeInBytes = zipContent.length;
 
-      // Save to temp folder
-      const tempPath = path.join(process.cwd(), "tmp");
-      await fs.mkdir(tempPath, { recursive: true });
-
+      // ✅ Use OS temp directory (safe for production)
+      const tempPath = os.tmpdir();
       const zipName = "fileshare-" + Date.now() + ".zip";
       const zipPath = path.join(tempPath, zipName);
+
       await fs.writeFile(zipPath, zipContent);
 
-      // Upload zip to Cloudinary
+      // Upload to Cloudinary
       const upload = await cloudinary.uploader.upload(zipPath, {
         resource_type: "raw",
         folder: "fileshare-zips",
         public_id: zipName.replace(".zip", ""),
       });
 
-      await fs.unlink(zipPath); // Clean up temp zip
+      await fs.unlink(zipPath); // cleanup
 
       const collection = await getCollections();
       await collection.files.insertOne({
@@ -88,12 +86,14 @@ export default async function handler(
         zippedFiles,
       });
 
+      // Update sender's sentCount
       await collection.users.updateOne(
         { shortcode: sender },
         { $inc: { sentCount: 1 } }
       );
-      const receiverList = receivers.split(",").map((r) => r.trim());
 
+      // Update each receiver's receivedCount
+      const receiverList = receivers.split(",").map((r) => r.trim());
       await Promise.all(
         receiverList.map((code) =>
           collection.users.updateOne(
@@ -105,7 +105,7 @@ export default async function handler(
 
       return res.status(200).json({ success: true, url: upload.secure_url });
     } catch (err) {
-      console.error("Error while uploading", err);
+      console.error("Upload error:", err);
       return res.status(500).json({ error: "Upload failed" });
     }
   });
